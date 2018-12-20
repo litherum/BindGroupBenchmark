@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let trials = 100
-        let maximum = 10000
-        let step = 10
+        let trials = 100000
+        let maximum = 100
+        let step = 1
 
         let device = MTLCreateSystemDefaultDevice()!
 

@@ -234,9 +234,9 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 			m_commandList->ResourceBarrier(1, &indexBufferResourceBarrier);
 		}
 
-		auto trials = 100;
-		auto maximum = 10000;
-		auto step = 10;
+		auto trials = 100000;
+		auto maximum = 100;
+		auto step = 1;
 
 		// Create a descriptor heap for the constant buffers.
 		{

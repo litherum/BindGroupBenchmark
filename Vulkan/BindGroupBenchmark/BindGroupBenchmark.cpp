@@ -1842,9 +1842,9 @@ void Demo::prepare_descriptor_set() {
         device.updateDescriptorSets(2, writes, 0, nullptr);
     }
 
-	auto trials = 100;
-	auto maximum = 10000;
-	auto step = 10;
+	auto trials = 100000;
+	auto maximum = 100;
+	auto step = 1;
 
 	auto const image_create_info = vk::ImageCreateInfo()
 		.setImageType(vk::ImageType::e2D)
