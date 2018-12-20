@@ -1898,15 +1898,6 @@ void Demo::prepare_descriptor_set() {
 	LARGE_INTEGER info;
 	QueryPerformanceFrequency(&info);
 
-	vk::DescriptorPoolSize const poolSize = vk::DescriptorPoolSize().setType(vk::DescriptorType::eSampledImage).setDescriptorCount(maximum * maximum * trials);
-
-	auto const descriptorPoolInfo =
-		vk::DescriptorPoolCreateInfo().setMaxSets(maximum * trials).setPoolSizeCount(1).setPPoolSizes(&poolSize);
-
-	vk::DescriptorPool descriptorPool;
-	auto result = device.createDescriptorPool(&descriptorPoolInfo, nullptr, &descriptorPool);
-	VERIFY(result == vk::Result::eSuccess);
-
 	for (int item = 1; item < maximum / step; ++item) {
 		auto i = item * step;
 		LARGE_INTEGER total = { 0 };
@@ -1928,10 +1919,19 @@ void Demo::prepare_descriptor_set() {
 			LARGE_INTEGER before;
 			QueryPerformanceCounter(&before);
 
+			vk::DescriptorPoolSize const poolSize = vk::DescriptorPoolSize().setType(vk::DescriptorType::eSampledImage).setDescriptorCount(i);
+
+			auto const descriptorPoolInfo =
+				vk::DescriptorPoolCreateInfo().setMaxSets(1).setPoolSizeCount(1).setPPoolSizes(&poolSize);
+
+			vk::DescriptorPool descriptorPool;
+			auto result = device.createDescriptorPool(&descriptorPoolInfo, nullptr, &descriptorPool);
+			VERIFY(result == vk::Result::eSuccess);
+
 			auto const alloc_info =
 				vk::DescriptorSetAllocateInfo().setDescriptorPool(descriptorPool).setDescriptorSetCount(1).setPSetLayouts(&descriptorSetLayout);
 			vk::DescriptorSet descriptorSet;
-			auto result = device.allocateDescriptorSets(&alloc_info, &descriptorSet);
+			result = device.allocateDescriptorSets(&alloc_info, &descriptorSet);
 			VERIFY(result == vk::Result::eSuccess);
 
 			std::vector<vk::DescriptorImageInfo> textureDescriptors(i);
