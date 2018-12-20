@@ -1950,11 +1950,23 @@ void Demo::prepare_descriptor_set() {
 			LARGE_INTEGER after;
 			QueryPerformanceCounter(&after);
 			total.QuadPart += after.QuadPart - before.QuadPart;
+
+			device.destroyDescriptorPool(descriptorPool);
 		}
+
 		std::ostringstream ss;
 		ss << i << ": " << (static_cast<double>(total.QuadPart) / static_cast<double>(trials)) / static_cast<double>(info.QuadPart) * 1000.0 << " milliseconds" << std::endl;
 		OutputDebugStringA(ss.str().c_str());
+
+		device.destroyDescriptorSetLayout(descriptorSetLayout);
 	}
+
+	for (auto& imageView : imageViews)
+		device.destroyImageView(imageView);
+	for (auto& memoryAllocation : memoryAllocations)
+		device.freeMemory(memoryAllocation);
+	for (auto& image : images)
+		device.destroyImage(image);
 	exit(0);
 }
 
