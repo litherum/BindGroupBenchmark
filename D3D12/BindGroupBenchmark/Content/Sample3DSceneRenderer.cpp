@@ -301,7 +301,6 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 				QueryPerformanceCounter(&before);
 
 				CD3DX12_CPU_DESCRIPTOR_HANDLE handle = baseHandle;
-				D3D12_RESOURCE_ALLOCATION_INFO info = d3dDevice->GetResourceAllocationInfo(0, 1, &textureDescription);
 				for (int j = 0; j < i; ++j) {
 					D3D12_SHADER_RESOURCE_VIEW_DESC desc;
 					desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
